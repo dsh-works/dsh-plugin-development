@@ -106,7 +106,7 @@ Rules that bite:
 
 ## 6. Locale and icon
 
-- `locale/en.json` and `locale/zh.json` both define `meta.title` and `meta.description`. English is sentence case. These render in Plugin Manager and Settings without loading the plugin.
+- `locale/en.json` defines `meta.title` and `meta.description`; add `locale/<language>.json` only when the plugin ships that language. English is sentence case. These render in Plugin Manager and Settings without loading the plugin.
 - `icon.svg` is self-contained: no external references, no embedded fonts, no scripts. Export it as `./icon` and list it in `files`. No placeholder artwork ships.
 
 ## 7. Install into a profile

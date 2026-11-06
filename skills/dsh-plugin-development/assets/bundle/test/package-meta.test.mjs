@@ -6,7 +6,7 @@
  */
 
 import { existsSync } from 'node:fs'
-import { readFile } from 'node:fs/promises'
+import { readdir, readFile } from 'node:fs/promises'
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 
@@ -64,10 +64,14 @@ test('the browser half parses as a classic script', async () => {
 })
 
 test('locale files carry the display metadata', async () => {
-  for (const language of ['en', 'zh']) {
-    const meta = (await readJson(`locale/${language}.json`)).meta
+  const files = (await readdir(new URL('locale/', root))).filter((name) => name.endsWith('.json'))
 
-    assert.ok(typeof meta?.title === 'string' && meta.title.length > 0, `${language} title`)
-    assert.ok(typeof meta?.description === 'string' && meta.description.length > 0, `${language} description`)
+  assert.ok(files.includes('en.json'), 'locale/en.json is required')
+
+  for (const file of files) {
+    const meta = (await readJson(`locale/${file}`)).meta
+
+    assert.ok(typeof meta?.title === 'string' && meta.title.length > 0, `${file} title`)
+    assert.ok(typeof meta?.description === 'string' && meta.description.length > 0, `${file} description`)
   }
 })

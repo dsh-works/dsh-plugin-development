@@ -76,7 +76,7 @@ Every plugin repository has two long-lived branches and short-lived work branche
 - **Installing executes plugin code in the Host process.** Treat it as a trust decision. Ask before installing; never install a package whose source you have not read.
 - **Never claim verified without evidence.** State exactly which checks ran, in which theme and language, and which did not.
 - **Never touch user data without request.** Settings, sessions, and browser storage belong to the user; testing must restore them.
-- **Locale is part of the deliverable.** Ship `locale/en.json` and `locale/zh.json`; English copy is sentence case. Do not leave placeholder artwork silently in place.
+- **Locale is part of the deliverable, English first.** Ship `locale/en.json` with `meta.title` and `meta.description`; add `locale/<language>.json` only for languages the plugin actually ships. English copy is sentence case. Do not leave placeholder artwork silently in place.
 - **Restarting the profile is a user decision.** After Host or client source changes, the profile must be reloaded or restarted before the new code is live. Coordinate with the user; a running agent session may not survive it.
 
 ## Plugin repository anatomy
@@ -87,7 +87,7 @@ Every plugin repository has two long-lived branches and short-lived work branche
 | `cordis.patch.yml` | the bundle layer: usually one `insert` row with a stable `id` |
 | `index.js` | Host plugin: `name`, optional `inject`, optional `Config`, `apply(ctx, config)` |
 | `client.js` | browser plugin, only when the plugin renders UI; declared through `dsh.client` |
-| `locale/en.json`, `locale/zh.json` | `meta.title` / `meta.description` for Plugin Manager and Settings |
+| `locale/en.json` (+ optional other languages) | `meta.title` / `meta.description` for Plugin Manager and Settings |
 | `icon.svg` | exported as `./icon`, self-contained, no external references |
 | `test/` | `node --test` suites for pure logic and package metadata |
 | `README.md` | what it does, install, configuration, verification limits |
