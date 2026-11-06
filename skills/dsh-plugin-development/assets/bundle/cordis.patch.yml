@@ -1,0 +1,14 @@
+# The <plugin> bundle patch.
+#
+# One insert: the row that makes this package a Loader entry and exposes the
+# `dsh.client` declaration to the Web client module graph. A Host-only plugin
+# still needs the row; a configuration-only plugin may insert only shipped rows.
+#
+# Disable or remove it from a profile overlay by row id:
+#
+#   - id: <row-id>
+#     disabled: true
+
+- insert:
+    - id: <row-id>
+      name: 'dsh-plugin-<slug>'
