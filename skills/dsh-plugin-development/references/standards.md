@@ -1,5 +1,7 @@
 # Plugin bundle standards
 
+**Derived, never authoritative.** The `deepseek-harness` checkout and the live harness decide behavior and rules; this file is a digest with out-of-tree adaptations, and where it disagrees with them, they win and this file is corrected. A plugin repository's own `STANDARDS.md` or `SCOPE.md` never overrides either.
+
 Rules every out-of-tree bundle in a `dsh-works` repository must satisfy. **MUST** = a reviewer rejects the change; **SHOULD** = omit only with a stated reason in the plugin README. Each rule cites the deepseek-harness source it derives from; paths resolve against that checkout. APIs here are a developer preview and move between releases, so treat a citation as the rule's origin, not as a promise that the installed harness still behaves that way — re-verify against the installed version when a rule decides code.
 
 Mechanics for each surface (code shapes, slot ids, install commands) live in `references/surfaces.md` and `references/build.md`; this file states only the rules the code must satisfy.

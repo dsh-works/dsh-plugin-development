@@ -9,6 +9,8 @@ An out-of-tree plugin is a plain ESM JavaScript **bundle** in its own `dsh-works
 
 One plugin, one repository. This workflow repository holds process, standards, and templates — never plugin code.
 
+**Authority:** the `deepseek-harness` checkout, and the live harness it describes, decide harness behavior and rules. This skill is a derived digest with explicit out-of-tree adaptations; where it disagrees with the harness, the harness wins and this skill is corrected. A plugin repository's own `STANDARDS.md` or `SCOPE.md` is project-specific notes, never a replacement for the harness or this skill.
+
 Not this skill: adding a package, tool, provider, or event inside the `deepseek-harness` repository itself. That is in-tree TypeScript work governed by that checkout's `AGENTS.md`, `docs/cookbook/adding-a-package.md`, and `docs/cookbook/adding-a-tool.md`.
 
 ## Ground rules
@@ -71,7 +73,7 @@ Approval protocol at gate 1: present `PLAN.md` in the conversation, ask with the
 | `icon.svg` | exported as `./icon`, self-contained, no external references |
 | `test/` | `node --test` suites for pure logic and package metadata |
 | `README.md` | what it does, install, configuration, verification limits |
-| `STANDARDS.md`, `SCOPE.md` | the repo's own standing rules and scope; keep them in step with this skill |
+| `STANDARDS.md`, `SCOPE.md` | project-specific additions to this skill; never a replacement for it |
 
 ## References
 

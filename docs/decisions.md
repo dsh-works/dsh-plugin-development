@@ -29,3 +29,7 @@ A bundle needs no build step: `dsh plugin add` links the directory and the harne
 ## 7. Standards are re-audited when the harness moves
 
 The rules in `references/standards.md` are derived from the harness checkout, which is a developer preview with pre-stable APIs. Each plugin pins `engines.dsh`. When that pin moves, re-read the changed harness docs and update the standards deliberately; do not assume last quarter's rules are still enforced.
+
+## 8. Derived, never authoritative
+
+The harness checkout and the live harness are the only authority for behavior and rules. The skill and its standards are a digest of that checkout, with out-of-tree adaptations stated as such. When they disagree, the harness wins and the skill is corrected in that same change. A plugin repository's STANDARDS.md or SCOPE.md is project-specific notes and never overrides either. This is why every standard carries its harness source: the citation is the authority, the rule is the summary.
