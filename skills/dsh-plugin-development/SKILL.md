@@ -35,6 +35,23 @@ Tiers: a **new plugin** runs gates 0–4. A **feature** on a released plugin rer
 
 Approval protocol at gate 1: present `PLAN.md` in the conversation, ask with the question tool (Approve / Changes needed / Stop), and wait for an explicit answer. Silence, a topic change, or "looks fine" without reading is not approval. Before approval, the only files you may write are documentation in the plugin repository — no source.
 
+## Branch model
+
+Every plugin repository has two long-lived branches and short-lived work branches:
+
+| Branch | Role |
+|---|---|
+| `main` | **stable line.** Only commits whose checks passed — and, after a release, whose gate-3 evidence was recorded — live here. This is the line a profile should link for day-to-day use. |
+| `dev` | **integration line.** Daily work lives here; several features can be queued or in flight. |
+| `feature/<slug>` | one feature, cut from `dev`, merged back into `dev`, deleted after the merge. |
+| `hotfix/<slug>` | a defect fix that ships from the stable line: cut from `main`, merged into `main`, then merged back into `dev`. |
+
+- A new plugin starts with its scaffold on `main`; cut `dev` immediately after the first green `check` and never develop on `main` again except release and hotfix merges.
+- Before a release: bump `package.json` and `CHANGELOG.md` on `dev`, run the full `check`, merge `dev` into `main`, tag `v<version>`, then bring `main` back into `dev`.
+- Never force-push `main` or `dev`. Commit each green increment and push the branch you are on (`git push -u origin <branch>` the first time).
+- A linked checkout runs whatever branch it has checked out; gate 3 states which branch was installed and verified. Switching the checkout to `dev` to try work in the live UI is expected — say so when it happens.
+- Recommended on GitHub: protection on `main` and `dev` that requires the `check` workflow and refuses direct pushes to `main`.
+
 ## Where work happens
 
 | Location | Use for |
@@ -47,10 +64,11 @@ Approval protocol at gate 1: present `PLAN.md` in the conversation, ask with the
 
 1. Ask the kickoff questions and write `PLAN.md` (`references/plan.md`).
 2. Choose the surface from the decision table in `references/surfaces.md`.
-3. Copy `assets/bundle/` into a new plugin directory and rename the package and row id (`references/build.md`).
-4. Implement the Host half first, then the browser half; add locale and icon before installing.
-5. Install into the profile and reload it (`references/build.md`), then verify against the checks (`references/verify.md`).
-6. Commit, write the lesson, and report what is verified and what is not.
+3. Copy `assets/bundle/` into a new plugin directory and rename the package and row id (`references/build.md`). Commit the scaffold on `main`, cut `dev`, and do all further work there or on a `feature/<slug>` branch.
+4. Implement the Host half first, then the browser half; add locale and icon before installing. Merge each green increment into `dev` and push it.
+5. Install into the profile and reload it (`references/build.md`), then verify against the checks (`references/verify.md`). Verify the branch that is actually installed.
+6. Release by merging `dev` into `main` after the full `check` and the recorded evidence; tag it and sync `main` back into `dev`.
+7. Commit, write the lesson, and report what is verified and what is not.
 
 ## Hard rules
 

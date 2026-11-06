@@ -44,6 +44,10 @@ The skill runs five gates: **idea**, **plan** (the user approves it), **build**,
 | `references/verify.md` | proving it works, and rolling back |
 | `references/reference-index.md` | which harness document answers which question |
 
+## Branches
+
+Every plugin repository keeps `main` as the **stable line** and `dev` as the **integration line**. Work happens on `dev`, or on a `feature/<slug>` branch cut from it; a `hotfix/<slug>` is cut from `main`, merged into `main`, then merged back into `dev`. A release merges `dev` into `main` after the full `check`, tags `v<version>`, and merges `main` back into `dev`. Never force-push either long-lived branch; never develop directly on `main` after the initial scaffold. The rules are in `skills/dsh-plugin-development/SKILL.md`; the practical steps are in `references/build.md`.
+
 ## Where plugins live
 
 | Artifact | Location |

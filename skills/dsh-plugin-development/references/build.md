@@ -23,6 +23,8 @@ Create `Documents\deepseek-harness\<plugin-name>` from `assets/bundle/`, then re
 
 `git init` locally. The remote is `github.com/dsh-works/<plugin-name>`; create it in the organization and add it, do not assume it exists.
 
+**Branches.** Commit the scaffold on `main` and cut `dev` from it immediately; from then on `main` is the stable line and `dev` is where work lands (`SKILL.md`, "Branch model"). Features use `feature/<slug>` off `dev`; a defect that must ship from stable uses `hotfix/<slug>` off `main`, merged into `main` and back into `dev`. Release by merging `dev` into `main` after the full `check`, tagging `v<version>`, then merging `main` back into `dev`. Never force-push `main` or `dev`; push each green increment.
+
 ## 2. `package.json`
 
 The template carries the full shape. The fields that matter:
@@ -156,4 +158,4 @@ Inside a confined DSH session, `node --test` can fail with `spawn EPERM`: the te
 
 ## 11. Repository hygiene
 
-README (what it does, install, configuration, verification limits), `STANDARDS.md` and `SCOPE.md` as the repo's own standing rules, `CHANGELOG.md` once released, `LICENSE`, `.nvmrc`, and a CI workflow that runs the same `check` script. Keep the plugin's own documents with the code; they are what a future change reads first.
+README (what it does, install, configuration, verification limits), `STANDARDS.md` and `SCOPE.md` as the repo's own standing rules, `CHANGELOG.md` once released, `LICENSE`, `.nvmrc`, and a CI workflow that runs the same `check` script on `main` and `dev`. Keep the plugin's own documents with the code; they are what a future change reads first.

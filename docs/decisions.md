@@ -33,3 +33,7 @@ The rules in `references/standards.md` are derived from the harness checkout, wh
 ## 8. Derived, never authoritative
 
 The harness checkout and the live harness are the only authority for behavior and rules. The skill and its standards are a digest of that checkout, with out-of-tree adaptations stated as such. When they disagree, the harness wins and the skill is corrected in that same change. A plugin repository's STANDARDS.md or SCOPE.md is project-specific notes and never overrides either. This is why every standard carries its harness source: the citation is the authority, the rule is the summary.
+
+## 9. A stable `main` and a `dev` integration line
+
+A profile links a working tree, so a linked checkout runs whichever branch is checked out — "what runs" and "what was verified" can only agree if one line is kept stable on purpose. `main` therefore carries only commits whose checks passed (and, once released, whose gate-3 evidence was recorded); `dev` absorbs in-flight work so `main` never becomes a moving target. `feature/<slug>` keeps one change reviewable and mergeable without blocking the line, and `hotfix/<slug>` lets a defect reach stable without waiting for unfinished `dev` work — then merges back so the fix is not lost. Working directly on `main` is what this replaces: even a green local increment belongs on `dev` until the release merges it.

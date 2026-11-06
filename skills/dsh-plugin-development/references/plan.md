@@ -37,7 +37,7 @@ Write `docs/PLAN.md` in the plugin repository, from `assets/plan.template.md`. K
 - **Risks and unknowns** — anything that could force a redesign, with the cheapest experiment that settles it.
 - **Acceptance checks** — numbered, observable, and pass/fail. Each names the trigger, the expected result, and how it is observed (tool transcript, UI element, console, file). "Works" is not a check.
 - **Verification plan** — which checks need a restart, a second language, a second theme, or a second browser profile.
-- **Repository** — the `dsh-works` name, the row id, the package name, the `engines.dsh` range.
+- **Repository** — the `dsh-works` name, the row id, the package name, the `engines.dsh` range, and the branch the work will land on (`main` stable, `dev` integration — `SKILL.md`, "Branch model").
 - **Open questions** — every deferred one, with the answer that unblocks it.
 
 ## Approval
