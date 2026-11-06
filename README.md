@@ -1,4 +1,4 @@
-# DSH plugin workflow
+# DSH plugin development
 
 The process, standards, and templates for building DeepSeek Harness plugins in the `dsh-works` organization. It exists so that an idea becomes an agreed plan before it becomes code, and so that no plugin is called done before it was seen working in the live Web UI.
 
@@ -20,8 +20,8 @@ install.ps1 / install.cmd / install.sh   links the skills into the DSH skills fo
 ## Install on a machine
 
 ```powershell
-git clone https://github.com/dsh-works/dsh-plugin-workflow.git
-cd dsh-plugin-workflow
+git clone https://github.com/dsh-works/dsh-plugin-development.git
+cd dsh-plugin-development
 .\install.cmd
 ```
 

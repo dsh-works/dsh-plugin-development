@@ -73,7 +73,7 @@ Approval protocol at gate 1: present `PLAN.md` in the conversation, ask with the
 | `icon.svg` | exported as `./icon`, self-contained, no external references |
 | `test/` | `node --test` suites for pure logic and package metadata |
 | `README.md` | what it does, install, configuration, verification limits |
-| `STANDARDS.md`, `SCOPE.md` | project-specific additions to this skill; never a replacement for it |
+| `STANDARDS.md`, `SCOPE.md` | project-specific notes from `assets/STANDARDS.template.md`; never a replacement for the harness or this skill |
 
 ## References
 
