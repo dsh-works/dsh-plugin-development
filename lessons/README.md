@@ -31,7 +31,7 @@ The single rule the next plugin should follow, stated so it can be checked.
 
 | Date | Lesson | Folded into |
 |---|---|---|
-| — | — | — |
+| 2026-11-09 | [A junctioned workspace root breaks lexical path containment](2026-11-09-junctioned-workspace-paths.md) | `references/standards.md` J6; `dsh-plugin-pixelart` `lib/workspace.js` + `test/workspace.test.mjs` |
 
 ## Rules
 
