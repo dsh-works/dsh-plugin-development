@@ -35,6 +35,8 @@ On macOS or Linux use `./install.sh` and `./install.sh --uninstall`.
 
 The skill runs five gates: **idea**, **plan** (the user approves it), **build**, **verify** in the running harness, and **lesson**. The full rules are in `skills/dsh-plugin-development/SKILL.md`; the practical detail lives in its `references/`:
 
+Every plugin supports Windows, macOS and Linux: the gate runs on all three in CI (not only the author's OS), OS actions need a per-platform implementation with a typed fallback, and a test that describes another platform builds that platform's paths in its own flavour — `skills/dsh-plugin-development/references/standards.md` K1–K7, `references/build.md` "Cross-platform".
+
 | Read | When |
 |---|---|
 | `references/plan.md` | turning an idea into an approvable plan |

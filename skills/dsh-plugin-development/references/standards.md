@@ -108,6 +108,44 @@ Mechanics for each surface (code shapes, slot ids, install commands) live in `re
 - **J5 (SHOULD)** Report the install outcome from the returned `application` and `warnings`, distinguishing `failed`, `overridden`, and `restart-required`, and let the user decide when to restart a running profile. `packages/preset/agent-preset/skills/cordis-plugin-development/references/host-plugin.md#install-enable-and-observe`; `packages/preset/agent-preset/skills/cordis-plugin-development/SKILL.md`
 - **J6 (MUST)** Containment and relative-path checks compare the root and the candidate on the same path basis: when candidates are resolved through `realpath` to defeat link escapes, resolve the root the same way before deciding a path is outside. A workspace root reached through a symlink or a Windows junction otherwise rejects the plugin's own files (measured live in `dsh-plugin-pixelart` v0.5: `pixelart_gallery` refused its own drawing as "outside the workspace"; the fix retries on real paths). `docs/defensive-patterns/general.md`; `lessons/2026-11-09-junctioned-workspace-paths.md`
 
+## K. Cross-platform (Windows, macOS, Linux)
+
+Every plugin supports and passes on **all three desktop platforms**: Windows, macOS and Linux. A
+platform-specific capability is a per-platform implementation with a defined fallback on each
+platform, not a Windows-only implementation with a comment. These are out-of-tree adaptations of the
+harness's own three-platform support; the citations name the lesson that measured each rule.
+
+- **K1 (MUST)** The full suite passes on Windows, macOS and Linux, and CI runs the same gate on all
+  three (`ubuntu-latest`, `macos-latest`, `windows-latest`). A suite green only on the author's
+  platform is not green. `lessons/2026-11-09-platform-path-flavour.md#what-happened`
+- **K2 (MUST)** Describe another platform from any host: a helper that takes a `platform` parameter
+  validates with that platform's path flavour (`path.win32` / `path.posix`) and is tested for every
+  supported platform through injected spawn/filesystem seams. A Windows path is not absolute under
+  POSIX rules, and vice versa; validating with the host's `isAbsolute` rejects the platform being
+  described. `lessons/2026-11-09-platform-path-flavour.md#rule`
+- **K3 (MUST)** Tests build fixtures in the path flavour of the platform they simulate — never the
+  host's flavour and never hard-coded `C:\` or `/` literals for a simulated platform. A path a fixture
+  both emits and asserts is built once, for that platform, with `path.posix` or `path.win32`. Fixtures
+  that use the host's `join()` to describe another OS pass locally and fail in CI.
+  `lessons/2026-11-09-platform-path-flavour.md#what-happened`
+- **K4 (MUST)** Every OS-level action has a per-platform implementation plus a readable
+  `*-unavailable` failure: desktop terminal (Windows Terminal/PowerShell; iTerm2/Terminal.app;
+  x-terminal-emulator/gnome-terminal/xterm), directory picker (PowerShell dialog; `osascript`;
+  `zenity`/`kdialog`), shell detection (the user's `$SHELL` with a login/interactive probe; `where` on
+  Windows), editor and screenshot openers. A missing tool fails with a typed code, never a crash or a
+  silent false success. `lessons/2026-11-09-platform-path-flavour.md#rule`
+- **K5 (MUST)** Runtime path handling uses `node:path` for the running platform, and child processes
+  use the platform's executable form: `.cmd`/`.bat` shims are started through `cmd.exe` because Node
+  refuses to spawn them directly; environment variables are read per platform (`USERPROFILE`/`APPDATA`
+  vs `HOME`); file modes that matter (a `bin` entry, a script) are committed executable.
+  `lessons/2026-11-09-platform-path-flavour.md#what-happened`
+- **K6 (SHOULD)** Name platform prerequisites in the README Limits section — a terminal application,
+  `zenity`/`kdialog`, git ≥2.28, an npm global bin on PATH, macOS Automation permission — and degrade
+  the UI to that sentence when one is absent. `build.md#10-cross-platform`
+- **K7 (MUST)** Verification says which OS the live checks ran on. A green CI matrix on the other
+  platforms is regression evidence, not a live check; report both facts separately.
+  `verify.md#checks-that-always-apply`
+
 ## Not applicable out-of-tree
 
 In-tree machinery that must not be cargo-culted into a plain-JS bundle, and what to do instead:
@@ -124,4 +162,4 @@ In-tree machinery that must not be cargo-culted into a plain-JS bundle, and what
 
 ## Before calling the plugin done
 
-Run the rules that a reviewer would run: A1–A8 disposal, C1–C5 config, D2/D5/D7 model-visible facts, E5–E7 locale, F1–F7 tool contract, G1–G7 UI, H1–H8 packaging, I1–I3 tests, J1–J5 trust. Record in the README what was verified live, in which theme and locale, and what remains unverified.
+Run the rules that a reviewer would run: A1–A8 disposal, C1–C5 config, D2/D5/D7 model-visible facts, E5–E7 locale, F1–F7 tool contract, G1–G7 UI, H1–H8 packaging, I1–I3 tests, J1–J5 trust, K1–K5 portability. Record in the README what was verified live, in which theme, locale and OS, and what remains unverified.

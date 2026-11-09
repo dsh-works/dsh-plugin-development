@@ -32,6 +32,7 @@ The single rule the next plugin should follow, stated so it can be checked.
 | Date | Lesson | Folded into |
 |---|---|---|
 | 2026-11-09 | [A junctioned workspace root breaks lexical path containment](2026-11-09-junctioned-workspace-paths.md) | `references/standards.md` J6; `dsh-plugin-pixelart` `lib/workspace.js` + `test/workspace.test.mjs` |
+| 2026-11-09 | [A fixture that describes another platform must speak its path flavour](2026-11-09-platform-path-flavour.md) | `references/standards.md` K1–K7; `references/build.md` "Cross-platform"; `references/verify.md` OS in evidence |
 
 ## Rules
 

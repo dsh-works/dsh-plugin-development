@@ -111,7 +111,13 @@ Rules that bite:
 
 ## 7. Install into a profile
 
+```sh
+# macOS / Linux
+dsh plugin --profile web add ~/Documents/deepseek-harness/dsh-plugin-<slug>
+```
+
 ```powershell
+# Windows
 dsh plugin --profile web add C:\Users\<you>\Documents\deepseek-harness\dsh-plugin-<slug>
 ```
 
@@ -132,17 +138,59 @@ Restarting the profile ends the running process, so coordinate it with the user 
 
 ## 9. Local checks before installing
 
-```powershell
+```sh
 node --check index.js
 node --check client.js
 node --test test/*.test.mjs
 ```
 
-`client.js` is a classic script, so a parse check plus the live UI is what you have; do not build a custom renderer to compensate.
+`client.js` is a classic script, so a parse check plus the live UI is what you have; do not build a custom renderer to compensate. The repo's `check` script (`npm run check`) is the gate, and the same command must pass on Windows, macOS and Linux.
 
 Inside a confined DSH session, `node --test` can fail with `spawn EPERM`: the test runner forks worker processes with piped stdio, which the sandbox refuses. Run the file directly (`node test/package-meta.test.mjs`) for a sandboxed check, or run the full `check` script with host approval.
 
-## 10. Troubleshooting
+## 10. Cross-platform
+
+Windows, macOS and Linux are all supported. Build for that from the scaffold, not when CI first goes
+red. Rules K1–K7 in `references/standards.md`; this is the working loop.
+
+- **CI matrix from the scaffold.** Run the same `check` on all three platforms so the first push
+  catches a platform defect:
+
+  ```yaml
+  jobs:
+    check:
+      strategy:
+        fail-fast: false
+        matrix:
+          os: [ubuntu-latest, macos-latest, windows-latest]
+      runs-on: ${{ matrix.os }}
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/setup-node@v4
+          with:
+            node-version: 22
+        - run: npm run check
+  ```
+
+- **Test the platform, not the host.** Give each OS helper a `platform` parameter and injected
+  `spawn`/filesystem seams; validate a described platform's paths with `path.win32`/`path.posix`, not
+  the host's `isAbsolute`. Test every branch from any host.
+- **Fixtures speak one flavour.** Build a simulated platform's paths with `path.posix`/`path.win32`,
+  once, and reuse the same string in the filesystem fake and the assertion. The host's `join()` in a
+  fixture for another OS passes where it was written and fails on CI.
+- **Every OS action has a fallback.** Terminal (Windows Terminal/PowerShell, iTerm2/Terminal.app,
+  x-terminal-emulator/gnome-terminal/xterm), directory picker (PowerShell dialog, `osascript`,
+  `zenity`/`kdialog`), shell detection (`$SHELL` login/interactive probe; `where` on Windows), and the
+  desktop openers. A missing tool returns a typed `*-unavailable`, not a crash or a false success.
+- **Platform process and env details.** `.cmd`/`.bat` shims are started through `cmd.exe` (Node refuses
+  a direct spawn); read `USERPROFILE`/`APPDATA` on Windows and `HOME` elsewhere; commit executable bits
+  for `bin` entries; keep path handling on `node:path`.
+- **Document prerequisites.** Name the terminal/picker/git/npm/PATH/permission requirements in the
+  README Limits section and show the same sentence in the UI when one is missing.
+- **Report the OS.** Gate 3 evidence names the OS the live checks ran on; a green CI matrix elsewhere
+  is regression evidence, not a live check.
+
+## 11. Troubleshooting
 
 | Symptom | Likely cause |
 |---|---|
@@ -156,6 +204,6 @@ Inside a confined DSH session, `node --test` can fail with `spawn EPERM`: the te
 | Colors wrong in one theme | literal colors instead of theme tokens |
 | Text does not switch language | key missing from the active locale file, or a hardcoded string |
 
-## 11. Repository hygiene
+## 12. Repository hygiene
 
 README (what it does, install, configuration, verification limits), `STANDARDS.md` and `SCOPE.md` as the repo's own standing rules, `CHANGELOG.md` once released, `LICENSE`, `.nvmrc`, and a CI workflow that runs the same `check` script on `main` and `dev`. Keep the plugin's own documents with the code; they are what a future change reads first.

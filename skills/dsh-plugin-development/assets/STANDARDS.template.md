@@ -20,4 +20,4 @@ Only rules that narrow or differ from the shared skill belong here. Keep the lis
 
 ## Not duplicated here
 
-Bundle shape, effects and disposal, config, session and model-visible data, errors, locale, tool contracts, Web UI rules, packaging, compatibility, tests, and install trust live in the shared skill. Do not copy them into this repository; a copy rots against the harness.
+Bundle shape, effects and disposal, config, session and model-visible data, errors, locale, tool contracts, Web UI rules, packaging, compatibility, cross-platform behavior, tests, and install trust live in the shared skill. Do not copy them into this repository; a copy rots against the harness.

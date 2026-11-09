@@ -30,10 +30,11 @@ A screenshot of a mock page, a registry entry, an `application: applied` line, o
 6. **Restart.** Reload the page, and if the plugin owns Host state, restart the profile. State that was meant to persist persists; state that was meant to be transient is gone.
 7. **Restore user state.** Anything the test changed — settings, browser storage, a dragged position — is restored or the user is told.
 8. **Negative control.** At least one check must confirm the plugin refuses or degrades as designed: bad input, missing service, cancelled work, or a disabled row. A green path alone is not verification.
+9. **Platform.** Record which OS the live checks ran on. A green CI matrix on the other platforms is regression evidence, not a live check; report the two separately.
 
 ## Recording
 
-Fill the acceptance checks in `docs/PLAN.md` with: check number, result (`pass` / `fail` / `not run`), evidence (one line — the command, the screenshot name, the result text), and date. Leave nothing implied. `not run` is allowed and must be reported; an unrun check is not a pass.
+Fill the acceptance checks in `docs/PLAN.md` with: check number, result (`pass` / `fail` / `not run`), evidence (one line — the command, the screenshot name, the result text), the OS when a live check ran, and date. Leave nothing implied. `not run` is allowed and must be reported; an unrun check is not a pass.
 
 Report at the end of the turn: what was verified, in which theme and language, what was not verified and why, and what the user must do (for example, restart the profile).
 

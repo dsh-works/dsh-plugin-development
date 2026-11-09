@@ -74,8 +74,9 @@ Every plugin repository has two long-lived branches and short-lived work branche
 
 - **Never hand-edit a profile.** Use `dsh plugin --profile <name> add <absolute plugin path>` (or the Plugins page); it owns the `link:` dependency and the `dsh.profile.bundles` entry. A hand-written profile edit needs its own approval and usually drifts.
 - **Installing executes plugin code in the Host process.** Treat it as a trust decision. Ask before installing; never install a package whose source you have not read.
-- **Never claim verified without evidence.** State exactly which checks ran, in which theme and language, and which did not.
+- **Never claim verified without evidence.** State exactly which checks ran, in which theme and language, on which OS, and which did not.
 - **Never touch user data without request.** Settings, sessions, and browser storage belong to the user; testing must restore them.
+- **Cross-platform by default.** Windows, macOS and Linux are all supported platforms: the full gate runs on all three in CI (not just the author's OS), every OS-level action has a per-platform implementation with a typed fallback, and tests describe another platform's paths in that platform's own flavour. Rules K1–K7 in `references/standards.md`; the working loop is `references/build.md`, "Cross-platform".
 - **Locale is part of the deliverable, English first.** Ship `locale/en.json` with `meta.title` and `meta.description`; add `locale/<language>.json` only for languages the plugin actually ships. English copy is sentence case. Do not leave placeholder artwork silently in place.
 - **Restarting the profile is a user decision.** After Host or client source changes, the profile must be reloaded or restarted before the new code is live. Coordinate with the user; a running agent session may not survive it.
 
