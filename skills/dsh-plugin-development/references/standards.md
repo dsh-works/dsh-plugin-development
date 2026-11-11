@@ -133,18 +133,27 @@ harness's own three-platform support; the citations name the lesson that measure
   x-terminal-emulator/gnome-terminal/xterm), directory picker (PowerShell dialog; `osascript`;
   `zenity`/`kdialog`), shell detection (the user's `$SHELL` with a login/interactive probe; `where` on
   Windows), editor and screenshot openers. A missing tool fails with a typed code, never a crash or a
-  silent false success. `lessons/2026-11-09-platform-path-flavour.md#rule`
+  silent false success. On macOS open a desktop app through LaunchServices
+  (`open -a <app> <directory>`) rather than an AppleScript session `command`: the command runs as the
+  session, so a one-shot command such as `cd` closes the window immediately
+  (`lessons/2026-11-11-macos-terminal-launch.md`). `lessons/2026-11-09-platform-path-flavour.md#rule`
 - **K5 (MUST)** Runtime path handling uses `node:path` for the running platform, and child processes
   use the platform's executable form: `.cmd`/`.bat` shims are started through `cmd.exe` because Node
   refuses to spawn them directly; environment variables are read per platform (`USERPROFILE`/`APPDATA`
   vs `HOME`); file modes that matter (a `bin` entry, a script) are committed executable.
   `lessons/2026-11-09-platform-path-flavour.md#what-happened`
 - **K6 (SHOULD)** Name platform prerequisites in the README Limits section — a terminal application,
-  `zenity`/`kdialog`, git ≥2.28, an npm global bin on PATH, macOS Automation permission — and degrade
-  the UI to that sentence when one is absent. `build.md#10-cross-platform`
+  `zenity`/`kdialog`, git ≥2.28, an npm global bin on PATH — and degrade the UI to that sentence when
+  one is absent. `build.md#10-cross-platform`
 - **K7 (MUST)** Verification says which OS the live checks ran on. A green CI matrix on the other
   platforms is regression evidence, not a live check; report both facts separately.
   `verify.md#checks-that-always-apply`
+- **K8 (MUST)** npm's global layout is per platform: on POSIX global packages live under
+  `<prefix>/lib/node_modules` with shims in `<prefix>/bin`; the Windows prefix (`%APPDATA%\npm`) is
+  itself the global package directory, with `.cmd`/`.ps1` shims beside it. Decide "installed by this
+  checkout" from that package root (resolve `node_modules/<name>` from it and compare with the
+  checkout), never from the bin directory or one platform's layout.
+  `lessons/2026-11-11-npm-global-root.md#rule`
 
 ## Not applicable out-of-tree
 

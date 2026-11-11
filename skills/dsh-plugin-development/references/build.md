@@ -182,9 +182,14 @@ red. Rules K1–K7 in `references/standards.md`; this is the working loop.
   x-terminal-emulator/gnome-terminal/xterm), directory picker (PowerShell dialog, `osascript`,
   `zenity`/`kdialog`), shell detection (`$SHELL` login/interactive probe; `where` on Windows), and the
   desktop openers. A missing tool returns a typed `*-unavailable`, not a crash or a false success.
+  On macOS open the app with `open -a <app> <directory>` (LaunchServices); a bare `cd` passed as an
+  AppleScript session `command` runs and closes the session immediately ("A session ended very soon
+  after starting") and may raise a scripting-API prompt.
 - **Platform process and env details.** `.cmd`/`.bat` shims are started through `cmd.exe` (Node refuses
   a direct spawn); read `USERPROFILE`/`APPDATA` on Windows and `HOME` elsewhere; commit executable bits
-  for `bin` entries; keep path handling on `node:path`.
+  for `bin` entries; keep path handling on `node:path`. npm's global package root is
+  `<prefix>/lib/node_modules` on POSIX and `<prefix>/node_modules` on Windows — derive install
+  ownership from that root, not from the bin directory.
 - **Document prerequisites.** Name the terminal/picker/git/npm/PATH/permission requirements in the
   README Limits section and show the same sentence in the UI when one is missing.
 - **Report the OS.** Gate 3 evidence names the OS the live checks ran on; a green CI matrix elsewhere

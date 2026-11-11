@@ -33,6 +33,8 @@ The single rule the next plugin should follow, stated so it can be checked.
 |---|---|---|
 | 2026-11-09 | [A junctioned workspace root breaks lexical path containment](2026-11-09-junctioned-workspace-paths.md) | `references/standards.md` J6; `dsh-plugin-pixelart` `lib/workspace.js` + `test/workspace.test.mjs` |
 | 2026-11-09 | [A fixture that describes another platform must speak its path flavour](2026-11-09-platform-path-flavour.md) | `references/standards.md` K1–K7; `references/build.md` "Cross-platform"; `references/verify.md` OS in evidence |
+| 2026-11-11 | [macOS terminal launch: LaunchServices, not an AppleScript session command](2026-11-11-macos-terminal-launch.md) | `references/standards.md` K4; `references/build.md` "10. Cross-platform" |
+| 2026-11-11 | [npm's global package root differs by platform](2026-11-11-npm-global-root.md) | `references/standards.md` K8; `references/build.md` "10. Cross-platform" |
 
 ## Rules
 
